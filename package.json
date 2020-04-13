@@ -1,0 +1,14 @@
+{
+  "name": "think-space-oauth",
+  "version": "0.0.1",
+  "description": "my think space,login from github",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "abearxiong",
+  "license": "ISC"
+}

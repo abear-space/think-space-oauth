@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录返回状态</title>
+  </head>
+  <body>
+    <h1>测试cors-where登录github</h1>
+    <div>
+      <p>回调页面</p>
+    </div>
+    <button onclick="postCode()">提交code</button>
+    <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+    <script src="./login.js"></script>
+
+    <script>
+        function postCode(){
+           let a = GithubToken().auto();
+           a.then(console.log);
+        }
+    </script>
+  </body>
+</html>

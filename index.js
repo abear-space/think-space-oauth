@@ -140,4 +140,4 @@ function GithubToken(options={}){
     }
   }
 
-module.exports = GithubToken;  
+export default GithubToken;  

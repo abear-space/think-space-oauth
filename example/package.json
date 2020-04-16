@@ -10,7 +10,7 @@
   "author": "abearxiong",
   "license": "ISC",
   "dependencies": {
-    "think-space-oauth": "github:abearxiong/think-space-oauth"
+    "think-space-oauth": "0.0.2"
   },
   "devDependencies": {
     "serve": "^11.3.0"

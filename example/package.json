@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "think-space-oauth": "github:abearxiong/think-space-oauth"
+  },
+  "devDependencies": {
+    "serve": "^11.3.0"
   }
 }

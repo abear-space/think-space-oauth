@@ -10,21 +10,20 @@
     <button onclick="login()">登录</button>
     <button onclick="postCode()">提交code</button>
     <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-    <!-- <script src="./login.js"></script> -->
     <script type="module">
-        import { GithubToken } from "./node_modules/think-space-oauth/index.js";
-    </script>
-    <!-- <import name="comp" src="../../node_modules/think-space-oaut/index.js"></import> -->
-    <script>
+      import GithubToken from "./node_modules/think-space-oauth/index.js";
+      GithubToken().logout();
       function login() {
+        // console.log("login",GithubToken);
         GithubToken().auto().then(console.log);
       }
-    </script>
-    <script>
       function postCode() {
         let a = GithubToken().auto();
         a.then(console.log);
       }
+      window.login = login;
+      window.postCode = postCode;
     </script>
+
   </body>
 </html>

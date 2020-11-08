@@ -5,7 +5,8 @@ function GithubToken(options = {}) {
   let client_id = "6d1f0f1a67b21e729050";
   let client_secret = "22cbbe70c70edb70097236f0b8e51c46b8ac460e";
   let proxyUrl = "http://message.xiongxiao.me/cors/";
-  let queryUrl = "http://message.xiongxiao.me/api/gitThinkToken"
+  let queryUrl = "http://message.xiongxiao.me/api/gitThinkToken";
+  let useQueryUrl = false;
   function init() {
     if (options.authorizeUrl) {
       authorizeUrl = options.authorizeUrl;
@@ -24,6 +25,9 @@ function GithubToken(options = {}) {
     }
     if (options.queryUrl) {
       queryUrl = options.queryUrl;
+    }
+    if (options.useQueryUrl) {
+      useQueryUrl = options.useQueryUrl;
     }
   }
   // 初始化
@@ -85,7 +89,7 @@ function GithubToken(options = {}) {
     return getItem(TOKEN);
   }
   async function postCode() {
-    if(client_secret) {
+    if(client_secret && !useQueryUrl) {
       return postCodeCors();
     } else {
       return postCodeEnd();

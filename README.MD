@@ -76,34 +76,34 @@ client_id: 6d1f0f1a67b21e729050
 client_secret: 22cbbe70c70edb70097236f0b8e51c46b8ac460e  
 callback_url: http://localhost:3000/login_callback  
 proxyUrl: "http://message.xiongxiao.me/cors/"  
-queryUrl: "http://message.xiongxiao.me/api/gitThinkToken"  
+queryUrl: "http://message.xiongxiao.me/api/gitThinkToken"
 
-client_id,client_secret,callback_url是配置github应用获取得到的。
+client_id,client_secret,callback_url 是配置 github 应用获取得到的。
 
-proxyUrl是cros_anywhere的地址
-queryUrl是自己开发的后端小demo（保护client_secret,当配置中的client_secret不存在，使用服务器上面的)
+proxyUrl 是 cros_anywhere 的地址
+queryUrl 是自己开发的后端小 demo（保护 client_secret,当配置中的 client_secret 不存在，使用服务器上面的)
 
 ```html
 <body>
-<h1>测试cors-where登录github</h1>
-<button onclick="login()">登录</button>
-<button onclick="postCode()">提交code</button>
-<script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
-<script type="module">
+  <h1>测试cors-where登录github</h1>
+  <button onclick="login()">登录</button>
+  <button onclick="postCode()">提交code</button>
+  <script src="https://cdn.bootcss.com/axios/0.19.2/axios.min.js"></script>
+  <script type="module">
     import GithubToken from "think-space-oauth";
     GithubToken().logout();
     function login() {
-    // console.log("login",GithubToken);
-    GithubToken().auto().then(console.log);
+      // console.log("login",GithubToken);
+      GithubToken().auto().then(console.log);
     }
     function postCode() {
-    let a = GithubToken().auto();
-    a.then(console.log);
+      let a = GithubToken().auto();
+      a.then(console.log);
     }
     window.login = login;
     window.postCode = postCode;
-</script>
-  </body>
+  </script>
+</body>
 ```
 
 ## 程序介绍
@@ -116,6 +116,7 @@ export interface GithubTokenOptions {
   client_secret?: string;
   proxyUrl?: string;
   queryUrl?: string;
+  useQueryUrl?: boolean;
 }
 export interface GithubTokenValue {
   login: () => any;
@@ -129,11 +130,12 @@ declare const GithubToken: (
   githubToenOptions?: GithubTokenOptions
 ) => GithubTokenValue;
 ```
-auto的主要功能是判断当前状态，是否login（第一步），还是next（第二步），根据状态获取数据。logout删除数据
 
-获取到的token放在localStorage当中的。
+auto 的主要功能是判断当前状态，是否 login（第一步），还是 next（第二步），根据状态获取数据。logout 删除数据
 
-当client_secret不存在，会请求queryUrl进行后台获取token,后端代码如koa例子；
+获取到的 token 放在 localStorage 当中的。
+
+当 client_secret 不存在或者设置了 useQueryUrl=true，会请求 queryUrl 进行后台获取 token,后端代码如 koa 例子；
 
 ## 代理请求数据
 
@@ -143,19 +145,19 @@ github app，个人不喜欢暴露出来，所以我自己的部分，为了获�
 
 url:`http://**/gitThinkToken?code=**&client_id=**&client_secret=**`
 
-代码简介在 [koa例子](#koa例子)当中
+代码简介在 [koa 例子](#koa例子)当中
 
-## 使用think-space-token例子
+## 使用 think-space-token 例子
 
-example当中
+example 当中
 
-## koa例子
+## koa 例子
 
-运行koa-example代码
+运行 koa-example 代码
 
-code 通过example的例子拿取到code,替换下面链接的`CODE`;或者使用类似请求`https://github.com/login/oauth/authorize?client_id=6d1f0f1a67b21e729050`得到code;
+code 通过 example 的例子拿取到 code,替换下面链接的`CODE`;或者使用类似请求`https://github.com/login/oauth/authorize?client_id=6d1f0f1a67b21e729050`得到 code;
 
-请求url: http://localhost:3001/gitThinkToken?client_id=6d1f0f1a67b21e729050&client_secret=22cbbe70c70edb70097236f0b8e51c46b8ac460e&code=CODE
+请求 url: http://localhost:3001/gitThinkToken?client_id=6d1f0f1a67b21e729050&client_secret=22cbbe70c70edb70097236f0b8e51c46b8ac460e&code=CODE
 
 会返回类似结果：
 
@@ -198,5 +200,4 @@ const port = 3001;
 app.listen(port, () => {
   console.log("server is running on", port);
 });
-
 ```

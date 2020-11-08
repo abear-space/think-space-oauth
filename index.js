@@ -4,7 +4,7 @@ function GithubToken(options = {}) {
   let accessTokenUrl = "https://github.com/login/oauth/access_token";
   let client_id = "6d1f0f1a67b21e729050";
   let client_secret = "22cbbe70c70edb70097236f0b8e51c46b8ac460e";
-  let proxyUrl = "http://message.xiongxiao.me/proxy/";
+  let proxyUrl = "http://message.xiongxiao.me/cors/";
   function init() {
     if (options.authorizeUrl) {
       authorizeUrl = options.authorizeUrl;

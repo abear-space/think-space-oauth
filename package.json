@@ -1,6 +1,6 @@
 {
   "name": "think-space-oauth",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "my think space,login from github",
   "main": "index.js",
   "repository": {

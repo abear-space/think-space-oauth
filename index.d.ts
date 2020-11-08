@@ -13,4 +13,4 @@ export interface GithubTokenValue {
   logout: () => any;
   auto: () => Promise<any>;
 }
-declare const GithubToken:  (githubToenOptions: GithubTokenOptions) => GithubTokenValue;
+declare const GithubToken:  (githubToenOptions?: GithubTokenOptions) => GithubTokenValue;

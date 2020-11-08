@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": { "registry1": "https://npm.pkg.github.com/", "registry": "https://registry.npmjs.org" },
   "author": "abearxiong",
   "license": "ISC"
 }

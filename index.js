@@ -5,6 +5,7 @@ function GithubToken(options = {}) {
   let client_id = "6d1f0f1a67b21e729050";
   let client_secret = "22cbbe70c70edb70097236f0b8e51c46b8ac460e";
   let proxyUrl = "http://message.xiongxiao.me/cors/";
+  let queryUrl = "http://message.xiongxiao.me/api/gitThinkToken"
   function init() {
     if (options.authorizeUrl) {
       authorizeUrl = options.authorizeUrl;
@@ -20,6 +21,9 @@ function GithubToken(options = {}) {
     }
     if (options.proxyUrl) {
       proxyUrl = options.proxyUrl;
+    }
+    if (options.queryUrl) {
+      queryUrl = options.queryUrl;
     }
   }
   // 初始化
@@ -81,6 +85,31 @@ function GithubToken(options = {}) {
     return getItem(TOKEN);
   }
   async function postCode() {
+    if(client_secret) {
+      return postCodeCors();
+    } else {
+      return postCodeEnd();
+    }
+  }
+  async function postCodeCors() {
+    let code = getQueryVariable("code");
+    let data = { client_id, client_secret, code };
+    if (code) {
+      const res = await fetch(proxyUrl + accessTokenUrl, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "content-type": "application/json",
+        },
+        mode: "cors",
+      });
+      const text = await res.text();
+      saveToken(text);
+      return getToken();
+    }
+  }
+  // 因为client_secret 使用代理不好，所以优化方法，得到token，后端服务器请求数据
+  async function postCodeEnd() {
     let code = getQueryVariable("code");
     let data = { client_id, client_secret, code };
     if (code) {

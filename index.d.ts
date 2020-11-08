@@ -4,6 +4,7 @@ export interface GithubTokenOptions {
   client_id?: string;
   client_secret?: string;
   proxyUrl?: string;
+  queryUrl?: string;
 }
 export interface GithubTokenValue {
   login: () => any;

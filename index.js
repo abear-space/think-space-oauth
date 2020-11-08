@@ -4,7 +4,7 @@ function GithubToken(options = {}) {
   let accessTokenUrl = "https://github.com/login/oauth/access_token";
   let client_id = "6d1f0f1a67b21e729050";
   let client_secret = "22cbbe70c70edb70097236f0b8e51c46b8ac460e";
-  let proxyUrl = "http://xiongxiao.me:9101/";
+  let proxyUrl = "http://message.xiongxiao.me/proxy/";
   function init() {
     if (options.authorizeUrl) {
       authorizeUrl = options.authorizeUrl;
@@ -66,7 +66,7 @@ function GithubToken(options = {}) {
     let isAccessToken = /access_token/.test(accessToken);
     if (!isAccessToken) {
       alert("登录错误");
-      console.error(accessToken)
+      console.error(accessToken);
       removeToken();
       return;
     }
@@ -112,6 +112,7 @@ function GithubToken(options = {}) {
       return nt;
     } else {
       login();
+      return Promise.resolve("登录页面");
     }
   }
   return {
@@ -124,7 +125,6 @@ function GithubToken(options = {}) {
     auto: auto,
   };
 }
-export {
-  GithubToken
-}
+export { GithubToken };
+
 export default GithubToken;

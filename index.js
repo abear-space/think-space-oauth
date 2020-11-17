@@ -1,6 +1,7 @@
 // xx-space-local-dev
 function GithubToken(options = {}) {
   let authorizeUrl = "https://github.com/login/oauth/authorize";
+  let scope = "user";
   let accessTokenUrl = "https://github.com/login/oauth/access_token";
   let client_id = "6d1f0f1a67b21e729050";
   let client_secret = "22cbbe70c70edb70097236f0b8e51c46b8ac460e";
@@ -10,6 +11,9 @@ function GithubToken(options = {}) {
   function init() {
     if (options.authorizeUrl) {
       authorizeUrl = options.authorizeUrl;
+    }
+    if (options.scope) {
+      scope = options.scope;
     }
     if (options.accessTokenUrl) {
       accessTokenUrl = options.accessTokenUrl;
@@ -36,7 +40,8 @@ function GithubToken(options = {}) {
   const TOKEN = "token";
   const ACCESS_TOKEN = "access_token";
   function login() {
-    location.href = authorizeUrl + "?" + `client_id=${client_id}`;
+    location.href =
+      authorizeUrl + "?" + `client_id=${client_id}` + `&scope=${scope}`;
   }
   function setItem(key, value) {
     localStorage.setItem(XSPACE + key, value);
@@ -73,13 +78,13 @@ function GithubToken(options = {}) {
     // "access_token=fabc48079ffb6bdb5b0a9dce9bbb8f149af0fb0b&scope=public_repo&token_type=bearer"
     let isAccessToken = /access_token/.test(accessToken);
     if (!isAccessToken) {
-      alert("登录错误");
       console.error(accessToken);
       removeToken();
-      return;
+      return false;
     }
     setItem(ACCESS_TOKEN, accessToken);
     setItem(TOKEN, getQueryVariable("access_token", accessToken));
+    return getQueryVariable("access_token", accessToken);
   }
   function removeToken() {
     removeItem(ACCESS_TOKEN);
@@ -89,7 +94,7 @@ function GithubToken(options = {}) {
     return getItem(TOKEN);
   }
   async function postCode() {
-    if(client_secret && !useQueryUrl) {
+    if (client_secret && !useQueryUrl) {
       return postCodeCors();
     } else {
       return postCodeEnd();
@@ -98,8 +103,9 @@ function GithubToken(options = {}) {
   async function postCodeCors() {
     let code = getQueryVariable("code");
     let data = { client_id, client_secret, code };
+    const url = proxyUrl + accessTokenUrl;
     if (code) {
-      const res = await fetch(proxyUrl + accessTokenUrl, {
+      const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -107,17 +113,21 @@ function GithubToken(options = {}) {
         },
         mode: "cors",
       });
-      const text = await res.text();
-      saveToken(text);
-      return getToken();
+      if (res.status == 200) {
+        const text = await res.text();
+        return saveToken(text);
+      } else {
+        return false;
+      }
     }
   }
   // 因为client_secret 使用代理不好，所以优化方法，得到token，后端服务器请求数据
   async function postCodeEnd() {
     let code = getQueryVariable("code");
     let data = { client_id, client_secret, code };
+    const url = queryUrl + `?client_id=${client_id}&client_secret=${client_secret}&code=${code}`;
     if (code) {
-      const res = await fetch(proxyUrl + accessTokenUrl, {
+      const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -125,9 +135,12 @@ function GithubToken(options = {}) {
         },
         mode: "cors",
       });
-      const text = await res.text();
-      saveToken(text);
-      return getToken();
+      if (res.status == 200) {
+        const text = await res.text();
+        return saveToken(text);
+      } else {
+        return false;
+      }
     }
   }
   function isNext() {

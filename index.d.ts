@@ -1,5 +1,6 @@
 export interface GithubTokenOptions {
   authorizeUrl?: string;
+  scope?: string;
   accessTokenUrl?: string;
   client_id?: string;
   client_secret?: string;
